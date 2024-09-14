@@ -1,1 +1,505 @@
+//lets begin some simple pattern dp questions
+#include<bits/stdc++.h>
+using namespace std;
+int main(){
+    int n;
+    cin>>n;
+    vector<int>cost(n+1);
+    vector<int>dp(n+1,0);
+    for(int i=1;i<=n;i++){
+        cin>>cost[i];
+    }
+    dp[1]=0;
+    dp[2]=abs(cost[2]-cost[1]);
+    dp[3]=dp[2]+abs(cost[2]-cost[1]);
+    for(int i=4;i<=n;i++){
+        dp[i]=min(abs(cost[i]-cost[i-1])+dp[i-1], abs(cost[i]-cost[i-3])+dp[i-3]);
+        cout<<dp[i];
+    }
+    cout<<dp[n];
+    return 0;
+}
 
+//so this question is from a at_coder contest A-Frog1
+#include<bits/stdc++.h>
+using namespace std;
+int main(){
+    int n;
+    cin>>n;
+    int b[n+1]={0};//the input array 
+    while(i<=n){
+        cin>>b[i];
+        i++;
+    }
+    int dp[n+1]={0};//the dp array
+    dp[1]=0;//no jump
+    dp[2]=abs(b[1]-b[2]);//only one answer possible
+    i=3;
+    while(i<=n){
+        dp[i]=min(dp[i-1]+abs(b[i]-b[i-1]),dp[i-2]+abs(b[i]-b[i-2]));//checking for a jump of 1 and jump of the which one turns to be good
+        i++;
+    }
+    cout<<dp[n];
+    return 0;
+}
+
+//this is the follow up of the same quetion with k jumps possible called the Frog2 at ATCoder
+#include<bits/stdc++.h>
+using namespace std;
+int main(){
+    int n;
+    int b[n+1]={0};
+    for(int i=1;i<=n;i++){
+        cin>>b[i];
+    }
+    int dp[n+1]={0};
+    dp[1]=0;
+    dp[2]=abs(b[1]-b[2]);
+    for(int i=3;i<=n;i++){
+        int ans=1e18;
+        int j=1;
+        while(j<=k && i-j>=1){//checking all possibel k values range for best answer 
+            int diff=dp[i-j]+abs(b[i]-b[j]);
+            ans=min(ans,diff);
+            j++;
+
+        }
+        dp[i]=ans;
+    }
+    cout<<dp[n];
+    return 0;
+}
+
+//getting sleepy but lets see how far i go current screen time almost 12 hours
+
+/*Problem :- You are given an array of size “N” ; you have to start your journey at index “1” and you need to end your journey at index “N”. 
+
+You can make jumps of size - 1 or 3 or 5 
+
+In the array positive as well as negative numbers can be available. 
+
+Please find the maximum sum of journey 
+*/
+
+//almost similar to the previous question but pretty easy '
+#include<bits/stdc++.h>
+using namespace std;
+int main(){
+    int n=0;
+    cin>>n;
+    int b[n+1]={0};
+    int dp[n+1]={0};
+    for(int i=1;i<=n;i++){
+        cin>>b[i];
+    }
+    dp[1]=b[1];
+    dp[2]=b[1]+b[2];
+    dp[3]=b[1]+b[2]+b[3];
+    dp[4]=max(dp[1]+b[4] ,(dp[3]+b[4]));
+    dp[5]=max(dp[4]+b[5] ,dp[2]+b[5]);
+//finding the best jump possible by taking all the possible jumps of every distance
+    for(i=6 ;i<=n;i++){
+        dp[i]=max(dp[i-1]+b[i] ,max(dp[i-3]+b[i] ) ,dp[i-5]+b[i]);
+    }
+    cout<<dp[n];
+    return 0;
+}
+//why i am directely coding the tabulation i know its a good practice to first write recursion then go to dp
+//but if do so it will become to lengthy and i am currently preping for OAs so kind of preping to writing fast optimized code only
+
+//Another at coder question C-Vacation
+//sometimes atcoder also turns out to be easy 
+
+#include<bits/stdc++.h>
+using namespace std;
+int main(){
+    int n;
+    cin>>n;
+    int a[n+1],b[n+1],c[n+1];
+    int i=1;
+    while(i<=n){
+        cin>>a[i]>>b[i]>>c[i];
+        i++;
+    }
+    int dp1[n+1]={0};
+    int dp2[n+1]={0};
+    int dp3[n+1]={0};
+    dp1[1]=a[1];
+    dp2[1]=b[1];
+    dp3[1]=c[1];
+    i=2;
+    while(i<=n){
+        dp1[i]=a[i]+max(dp2[i-1],dp3[i-1]);
+        dp2[i]=b[i]+max(dp3[i-1],dp1[i-1]);
+        dp3[i]=c[i]+max(dp1[i-1],dp2[i-1]);
+        
+    }
+    cout<<max(dp1[n],max(dpb[n],dpc[n]));
+    return 0;
+}
+
+/*Find the number of journeys where you start from index 1 and end at index ‘n’ and the sum of every journey should be odd..*/
+
+//so when i code any dp question from recursion it easy to see the state change but directely writing the optimized version is difficult but practice certainly allows you to spot the change 
+
+#include<bits/stdc++.h>
+using namespace std;
+int dp[1000005][3];
+int main(){
+    int n;
+    cin>>n;
+    int b[n+1]={0};
+    int i=0;
+    while(i<=n){
+        cin>>b[i];
+        i++;
+    }
+    if(a[1]%2==0){
+        dp[1][2]=1;//if the first number is even dp[index][even];
+
+    }
+    else{
+        dp[1][1]=1//if the current number is odd;
+    }
+    i=2;
+    while(i<=n){
+        if(a[i]%2==0){
+            dp[i][2]=dp[i-1][2]+dp[i-2][2]//if the curretn ele is even add the previous and second previous even sol to the current ans
+            dp[i][1]=dp[i1-1][1]+dp[i-2][1]//calculating the odd sol till this index if curr ele is even
+
+        }
+        else{
+            //just the opposite of above code
+            dp[i][2]=dp[i-1][1]+dp[i-2][1];
+            dp[i][1]=dp[i-1][2]+dp[i-2][2];
+        }
+    }
+    cout<<dp[n][1]<< " "<<dp[n][2]//returnig both you can do as you require
+    return 0;
+}
+
+/*Given an integer “N” ; find the minimum cost to reduce it to 1
+The operations you can do are as follows.->
+
+i) Reduce the number by 1 in “y” dollars; 
+
+ii) Reduce the number by /7 in “x” dollars.(if number is divisible by 7)
+
+iii) Reduce the number by /3 in “z” dollars;(if number is divisible by 3)
+
+iv) Reduce the number by /5 in “b” dollars;(if number is divisible by 5) 
+*/
+//you will find a similar question on leetcode also it some thin of ticket cost calculation
+
+
+#include<bits/stdc++.h>
+using namespace std;
+int main(){
+    int n;
+    int x,y,z,b;
+    cin>>n;
+    cin>>x>>y>>b>>z;
+    int dp[n+1]={0};
+    dp[1]={0};
+    int i=2;
+    while(i<=n){
+        int v1=dp[i-1]+y;
+        int v2=1e18;
+        int v3=1e18l
+        int v4=1e18;
+        if(i%7==0){
+            v2=dp[i/7]+x;
+        }
+        if(x%3==0){
+            v3=dp[i/3]+z;
+        }
+        if(i%5==0){
+            v4=dp[i/5]+b;
+        }
+        dp[i]=min(v1,min(v2,min(v3,v4)));
+        i++;
+    }
+    cout<<dp[n];
+    return 0;
+}
+//if you reading this how you like to code the solution from top to down or to bottoms up
+
+/*Reduce n to 1 
+If the number is even you can divide it by 2. 
+If the number is odd you can do +1 or -1 
+*/
+
+/*now this question requires you to look in to depth because as we see dp we can precompute some result but how to move the dp in 
+the both direction ie i+1 and i-1 i can easily solve for the i-1 but what
+about the i+1 so on looking closely you would realize that i+1 1 is even  so it can also be calculated
+as dp[i+1]/2 but the cost is two stes huh why one fir i+1 and other for i/2 part*/
+#include<bits.stdc++.h>
+using namespace std;
+int main(){
+    int n=5;
+    int dp[n+1]={0};
+    dp[1]=0;
+    int i=2;
+    while(i<=n){
+        if(i%2==0){
+            dp[i]=1+dp[i/2];
+        }
+        else {
+            dp[i]=min(1+dp[i-1], 2+dp[(i+1)/2]);
+        }
+        i++;
+    }
+    cout<<dp[n];
+    return 0;
+}
+
+#include<bits/stdc++.h>
+using namespace std;
+int main(){
+    int n;
+    cin>>n;
+    int b[n+1]={0};
+    int i=1;
+    while(i<=n){
+        cin>>b[i];
+        i++;
+    }
+    int dp[n+1][5]//dp[current index][forward jump or backward jump];
+    dp[1][2]=b[1];
+    dp[1][1]=100000;//not possible to reach the first indesx with back jump
+    dp[2][2]=100000;//cant reach index 2 with forwar jump so 
+    dp[2][1]=dp[1][2]+b[2]+b[3];//if we take back jump then we jump from i to i+2 and then to i+1 
+    /*so all possible ways to make forward jump till i and theb points of i+2 and i+1*/
+    i=3;
+    while(i<=n){
+        dp[i][2]=b[i]+min(dp[i-2][1],dp[i-2][2]);//both jump possible 
+        dp[i][1]=b[i]+b[i+1]+dp[i-1][2]//only forward jump till previous index
+        i++;
+    }
+    dp[i][2]=b[n]+min(dp[i-2][2],dp[i-2][1]);//all possible way to jump outside the array
+    dp[1][1]=100000000;
+    cout<<min(dp[n][2],dp[n-1][1],dp[n-2][2]);
+    return 0;
+
+}
+/*
+Understanding of the problem:-> You are given “B” queries; you have to perform some of them in order ; and make your initial integer 1 as large as possible! 
+
+-> + x 
+-> - x 
+-> * x 
+->/ x
+->N
+
+
+*/
+
+//first thing that comes to mind is that since increasw we are taling about we can use + and * only but that wont work i have tried it
+//since there are negative numbers also in the array 
+//so for every index we will store both the maximum and minim ans and so that we can negate property also to achieve the maximu
+
+//why my eyes getting blurry heheheh
+
+int max(int a,int b,int c){
+    return max(a,max(b,c));
+}
+int min(int a,int b,int c){
+    return min(a,min(b,c));
+}
+int main(){
+    int t;
+    cin>>t;
+    while(t--){
+        int b;
+        cin>>b;
+        int i;
+        int dp1[b+1];
+        int dp2[b+1];
+        dp1[0]=1;
+        dp2[0]=dp1[0];
+        i=1;
+        while(i<=n){
+            char g;
+            cin>>g;
+            if(g=='+'){
+                int e;
+                cin>>e;
+                dp1[i]=max(dp1[i-1]+e,dp2[i-1]+e,dp1[i-1]);
+                dp2[i]=max(dp1[i-1]+e,dp2[i-1]+e,dp2[i-1]);
+            }
+            else if(g=='+'){
+                int e;
+                cin>>e;
+                dp1[i]=max(dp1[i-1]*e,dp2[i-1]*e,dp1[i-1]);
+                dp2[i]=max(dp1[i-1]*e,dp2[i-1]*e,dp2[i-1]);
+            }
+            else if(g=='-'){
+                int e;
+                cin>>e;
+                dp1[i]=max(dp1[i-1]-e,dp2[i-1]-e,dp1[i-1]);
+                dp2[i]=max(dp1[i-1]-e,dp2[i-1]-e,dp2[i-1]);
+            }
+            else if(g=='/'){
+                int e;
+                cin>>e;
+                dp1[i]=max(dp1[i-1]-e,dp2[i-1]-e,dp1[i-1]);
+                dp2[i]=max(dp1[i-1]-e,dp2[i-1]-e,dp2[i-1]);
+            }
+            else{
+                dp1[i]=max(-1*dp1[i-1],-1*dp2[i-1],dp1[i-1]);
+                dp2[i]=max(-1*dp1[i-1],-1*dp2[i-1],dp2[i-1]);
+
+            }
+            
+        }
+        cout<<dp1[b];
+
+    }
+    return 0;
+        
+
+}
+/*Understanding :-> You are given 2 arrays ; 
+travel from start to end; maximum maximum dollars ;
+ whenever you try to jump from Array “A” to Array “B”
+  you make no money :) 
+*/
+//a two dp where at each index i can find the best solution from the array b and array a
+//and if in previous step i switched the array i can directely have the answer from dp i-2 from the different array
+
+#include<bits/stdc++.h>
+using namespace std;
+int dp[100005][2];
+int main(){
+    int n;
+    cin>>n;
+    int a[n+1]={0};
+    int b[n+1]={0};
+    for(int i=1;i<=n;i++){
+        cin>>a[i];
+    }
+    for(int i=1;i<=n;i++){
+        cin>>b[i];
+    }
+    dp[1][0]=a[1];//best with a
+    dp[1][1]=b[1];//best with b
+
+    for(int i=2;i<=n;i++){
+        dp[i][0]=max(dp[i-1][0],dp[i-2]+a[i]);
+        dp[i][1]=max(dp[i-1][1],dp[i-2]+b[i]);
+    }
+    cout<<dp[n][0]<<dp[n][1];
+    return 0;
+    
+
+}
+/*-> There are two arrays , 'B' and 'C' ; size of both the arrays is 'N' ;
+
+-> At each index you are supposed to pick up an element either from array 'C' or array 'B'
+
+->You have to maximize the final sum of all elements
+
+->Condition : You cannot select 3 or more than 3 element consecutively from the same array.*/
+
+//the question became complex because of somany differnet condition and here the pen and paper comes the handy most
+#include <bits/stdc++.h>
+
+using namespace std;
+int maxi(int x,int y,int z,int g)
+{
+    return max(max(x,y),max(z,g));
+}
+
+int mx(int x,int y,int z)
+{
+    return max(x,max(y,z));
+}
+int main() {
+    int n;
+    cin>>n;
+    int b[n+1]={0},d[n+1]={0};
+    int i = 1;
+    while(i<=n)
+    {
+        cin>>b[i];
+        cin>>d[i];
+        i++;
+    }
+    int dp[n+1][5][5]={0};
+    //dp[index][choice in index -1][choice at index i];
+    dp[1][1][1] = b[1];//current choice and previous choice same
+    dp[1][1][2] = b[1];//current choice and previous choice diff
+    dp[1][2][1] = d[1];//current choice and previous choice same
+    dp[1][2][2] = d[1];//current choice and previous choice diff
+    i=2;
+    while(i<=n){
+
+        //index i previous choice 1 current choice 1 so
+        //possible choices 
+        //look like a , a now we can have b,b or b,a not a,b and a,a 
+        dp[i][1][1]=b[i]+b[i-1]+max(dp[i-2][2][2],dp[i-2][2][1]);
+
+        //previous as 2 and current as 1 so
+        //looks like a ,b now choice are a,a , a,b ,b,a can't take b,b
+        dp[i][1][2]=b[i]+d[i-1]+max(dp[i-2][1][1], dp[i-2][1][2],dp[i-2][2][1]);
+        //now the next two cases would be similar
+        dp[i][2][1] = d[i] + b[i-1] + mx(dp[i-2][2][1],dp[i-2][2][2],dp[i-2][1][2]);
+        dp[i][2][2] = d[i] + d[i-1] + max(dp[i-2][1][2],dp[i-2][1][1]);
+        i++;
+
+
+
+    }
+    cout<<"final answer is "<<maxi(dp[n][1][1],dp[n][1][2],dp[n][2][2],dp[n][2][1]);
+}
+
+/*
+Stephen is doing an internship and he has a easy and hard task
+to perform in any particular day. If he choses to perform a hard
+task on any day then he must not have performed any task the previous
+day.company gives salary on both easy and hard task but salary on
+hard task is more than easy task.
+write an algorithm to let spethen earn maximum salary
+*/
+int dp[5000][5];
+
+int maxi(int x,int y,int z)
+{
+    return max(x,max(y,z));
+}
+
+int main() {
+   int n,m;
+   cin>>n;
+   cin>>m;
+   int easy[n+1]={0};
+   int hard[n+1]={0};
+   int i = 1;
+   while(i<=n)
+   {
+       cin>>easy[i];
+       cin>>hard[i];
+       i++;
+   }
+   
+   // we chose [1] for easy, [2] for hard and [3] for nothing in dp array
+   dp[1][1] = easy[1];
+   dp[1][2] = hard[1];
+   dp[1][3] = 0;
+   
+   i = 2;
+   while(i<=n)
+   {
+       dp[i][1] = easy[i] + maxi(dp[i-1][1],dp[i-1][2],dp[i-1][3]);//for easy all three choices are allowed
+       dp[i][2] = hard[i] + dp[i-1][3];//previous day should be no work
+       dp[i][3] = 0 + maxi(dp[i-1][1],dp[i-1][2],dp[i-1][3]); //can be all three
+       i++;
+   }
+   
+   cout<<"Final answer is "<<maxi(dp[n][1],dp[n][2],dp[n][3])<<endl;
+   
+   return 0;
+}
+
+//500 lines of code done if i sit few minutes more i will turn in to a curved chair 
+//i need to straight my back loude cramp noisese!!!!!!!
